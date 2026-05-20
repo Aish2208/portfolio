@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rudransh Kaushik — Software Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0c0c0c;
+    --bg2: #141414;
+    --bg3: #1c1c1c;
+    --accent: #b8f241;
+    --accent2: #78c800;
+    --text: #f0ede6;
+    --muted: #888880;
+    --border: rgba(255,255,255,0.07);
+    --card-bg: #151515;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--accent); color: #0c0c0c; }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    background-size: 180px;
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.25rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(12,12,12,0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 8rem 2rem 5rem;
+    max-width: 1100px; margin: 0 auto;
+    position: relative;
+  }
+
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 28px; height: 1px;
+    background: var(--accent);
+  }
+
+  .hero-name {
+    font-size: clamp(4rem, 10vw, 9rem);
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    margin-bottom: 2rem;
+  }
+  .hero-name span { color: var(--accent); }
+
+  .hero-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+  }
+
+  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent);
+    color: #0c0c0c;
+    padding: 0.75rem 1.75rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    border: none; cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: #ceff55; transform: translateY(-1px); }
+
+  .btn-ghost {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent;
+    color: var(--text);
+    padding: 0.75rem 1.75rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.25); transform: translateY(-1px); }
+
+  .hero-scroll {
+    position: absolute;
+    right: 2rem; bottom: 3rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    writing-mode: vertical-rl;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hero-scroll::after {
+    content: '';
+    width: 1px; height: 48px;
+    background: linear-gradient(to bottom, var(--muted), transparent);
+  }
+
+  .hero-stats {
+    position: absolute;
+    right: 2rem; top: 50%;
+    transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 1.5rem;
+  }
+  .stat-item { text-align: right; }
+  .stat-num {
+    font-size: 2rem; font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ── SECTION ── */
+  section { padding: 6rem 0; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 3rem;
+  }
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 20px; height: 1px;
+    background: var(--accent);
+  }
+
+  /* ── ABOUT ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .about-text {
+    font-size: 1.1rem;
+    line-height: 1.85;
+    color: #c8c5be;
+  }
+  .about-text strong { color: var(--text); font-weight: 600; }
+
+  .about-details { display: flex; flex-direction: column; gap: 0; }
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .detail-row:first-child { border-top: 1px solid var(--border); }
+  .detail-label { font-family: 'DM Mono', monospace; color: var(--muted); letter-spacing: 0.05em; }
+  .detail-value { color: var(--text); font-weight: 500; text-align: right; }
+  .detail-value.green { color: var(--accent); }
+
+  /* ── SKILLS ── */
+  .skills-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .skill-cell {
+    background: var(--card-bg);
+    padding: 1.75rem;
+  }
+  .skill-cell-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    background: rgba(184,242,65,0.07);
+    color: #b8d86a;
+    border: 1px solid rgba(184,242,65,0.15);
+    padding: 4px 10px;
+    letter-spacing: 0.03em;
+  }
+
+  /* ── PROJECTS ── */
+  .projects-grid { display: grid; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+
+  .project-card {
+    background: var(--card-bg);
+    padding: 2.5rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: start;
+    transition: background 0.2s;
+  }
+  .project-card:hover { background: #1a1a1a; }
+
+  .project-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+  }
+  .project-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+  .project-role {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    margin-bottom: 1.25rem;
+  }
+  .project-desc {
+    font-size: 14px;
+    color: #aaa89e;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+  .project-bullets { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .project-bullets li {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: #888880;
+    padding-left: 1rem;
+    position: relative;
+    line-height: 1.6;
+  }
+  .project-bullets li::before {
+    content: '→';
+    position: absolute; left: 0;
+    color: var(--accent);
+    font-size: 10px; top: 2px;
+  }
+
+  .project-meta { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 1rem; }
+  .project-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .project-impact {
+    background: rgba(184,242,65,0.07);
+    border: 1px solid rgba(184,242,65,0.2);
+    padding: 0.6rem 1rem;
+    text-align: right;
+  }
+  .impact-num {
+    font-size: 1.4rem; font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .impact-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .project-tech { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.5rem; }
+  .tech-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 3px 8px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── EDUCATION ── */
+  .edu-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 2rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+  }
+  .edu-institution { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.35rem; }
+  .edu-degree { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); letter-spacing: 0.05em; }
+  .edu-period { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent); text-align: right; white-space: nowrap; }
+
+  /* ── CONTACT ── */
+  .contact-outer {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 4rem;
+  }
+  .contact-heading {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+  }
+  .contact-heading span { color: var(--accent); }
+  .contact-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 3rem;
+    line-height: 1.8;
+  }
+  .contact-links { display: flex; flex-wrap: wrap; gap: 0; }
+  .contact-link {
+    display: flex; align-items: center; gap: 12px;
+    padding: 1.2rem 2rem;
+    border: 1px solid var(--border);
+    color: var(--text);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s, border-color 0.2s;
+    letter-spacing: 0.02em;
+  }
+  .contact-link + .contact-link { margin-left: -1px; }
+  .contact-link:hover { background: rgba(184,242,65,0.05); border-color: rgba(184,242,65,0.3); color: var(--accent); }
+  .contact-link-icon {
+    font-size: 16px;
+    opacity: 0.6;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  footer p {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+  .footer-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    border: 1px solid rgba(184,242,65,0.2);
+    padding: 4px 10px;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-tag { animation: fadeUp 0.6s ease both; animation-delay: 0.1s; }
+  .hero-name { animation: fadeUp 0.7s ease both; animation-delay: 0.2s; }
+  .hero-sub { animation: fadeUp 0.6s ease both; animation-delay: 0.35s; }
+  .hero-cta { animation: fadeUp 0.6s ease both; animation-delay: 0.45s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .project-card { grid-template-columns: 1fr; }
+    .project-meta { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+    .hero-stats { display: none; }
+    .edu-card { flex-direction: column; align-items: flex-start; }
+    .contact-outer { padding: 2rem; }
+    .contact-links { flex-direction: column; }
+    .contact-link + .contact-link { margin-left: 0; margin-top: -1px; }
+    nav { padding: 1rem 1.25rem; }
+    .nav-links { gap: 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">rk.dev</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Work</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">Available for internship · 2026</div>
+  <h1 class="hero-name">RUDRANSH<br><span>KAUSHIK</span></h1>
+  <p class="hero-sub">Full-stack developer who ships things that work in production.<br>
+  React · Node.js · SQL · CI/CD · Delhi → Bangalore</p>
+  <div class="hero-cta">
+    <a href="mailto:rudranshk168@gmail.com" class="btn-primary">Get in touch ↗</a>
+    <a href="#projects" class="btn-ghost">View my work</a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">50+</div>
+      <div class="stat-label">Real Users</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">12+</div>
+      <div class="stat-label">API Endpoints</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">99%</div>
+      <div class="stat-label">Uptime</div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">Scroll</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="section-label">About</div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p style="margin-bottom:1.25rem">I'm a Computer Science student at <strong>ARSD College, University of Delhi</strong> (graduating 2026), building full-stack systems that serve real users — not just side-project demos that live and die on localhost.</p>
+        <p style="margin-bottom:1.25rem">I independently designed, built, and deployed a <strong>contract farming platform</strong> from scratch — React frontend, Node/Express backend, relational SQL schema, and a full CI/CD pipeline to Vercel. It's used by <strong>50+ farmers and buyers</strong> today.</p>
+        <p>I take full ownership of whatever I build. I pick up new tools fast and I'm looking for a software development internship where I can contribute across the stack from day one.</p>
+      </div>
+      <div class="about-details">
+        <div class="detail-row">
+          <span class="detail-label">Location</span>
+          <span class="detail-value">Delhi, India</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Open to relocation</span>
+          <span class="detail-value green">Bangalore ✓</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Availability</span>
+          <span class="detail-value">6–12 months</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Graduating</span>
+          <span class="detail-value">Jun 2026</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Email</span>
+          <span class="detail-value" style="font-family:'DM Mono',monospace;font-size:12px;">rudranshk168@gmail.com</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Phone</span>
+          <span class="detail-value" style="font-family:'DM Mono',monospace;font-size:12px;">+91 70605 47150</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="section-label">Technical Skills</div>
+    <div class="skills-wrapper">
+      <div class="skill-cell">
+        <div class="skill-cell-label">Languages</div>
+        <div class="skill-tags">
+          <span class="tag">Python</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">SQL</span>
+          <span class="tag">HTML5</span>
+          <span class="tag">CSS3</span>
+        </div>
+      </div>
+      <div class="skill-cell">
+        <div class="skill-cell-label">Frontend</div>
+        <div class="skill-tags">
+          <span class="tag">React.js</span>
+          <span class="tag">Tailwind CSS</span>
+          <span class="tag">Figma</span>
+          <span class="tag">Responsive</span>
+        </div>
+      </div>
+      <div class="skill-cell">
+        <div class="skill-cell-label">Backend</div>
+        <div class="skill-tags">
+          <span class="tag">Node.js</span>
+          <span class="tag">Express.js</span>
+          <span class="tag">REST APIs</span>
+          <span class="tag">JWT Auth</span>
+        </div>
+      </div>
+      <div class="skill-cell">
+        <div class="skill-cell-label">Databases</div>
+        <div class="skill-tags">
+          <span class="tag">PostgreSQL</span>
+          <span class="tag">MongoDB</span>
+          <span class="tag">Schema Design</span>
+        </div>
+      </div>
+      <div class="skill-cell">
+        <div class="skill-cell-label">DevOps &amp; Tools</div>
+        <div class="skill-tags">
+          <span class="tag">Git</span>
+          <span class="tag">GitHub Actions</span>
+          <span class="tag">Vercel</span>
+          <span class="tag">Netlify</span>
+          <span class="tag">Postman</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="section-label">Engineering Work</div>
+    <div class="projects-grid">
+
+      <!-- Project 1 -->
+      <div class="project-card">
+        <div>
+          <div class="project-num">01 · Personal Project</div>
+          <h2 class="project-title">Contract Farming Platform</h2>
+          <div class="project-role">Full Stack Developer &amp; System Owner</div>
+          <p class="project-desc">A production-grade platform connecting farmers and buyers through contract-based listings, real-time updates, and user profile management. Built and shipped solo — from zero to 50+ active users.</p>
+          <ul class="project-bullets">
+            <li>Architected full stack with React.js + Node.js + Express + SQL from scratch</li>
+            <li>12+ documented REST API endpoints for auth, listings, and contract flows</li>
+            <li>~35% reduction in average API response time through query optimisation</li>
+            <li>Full GitHub Actions CI/CD pipeline to Vercel, 99%+ post-launch uptime</li>
+            <li>Market pricing data pipeline: scraped HTML/JSON → normalised DB records</li>
+          </ul>
+          <div class="project-tech" style="margin-top:1.25rem">
+            <span class="tech-pill">React.js</span>
+            <span class="tech-pill">Node.js</span>
+            <span class="tech-pill">Express</span>
+            <span class="tech-pill">PostgreSQL</span>
+            <span class="tech-pill">JWT</span>
+            <span class="tech-pill">GitHub Actions</span>
+            <span class="tech-pill">Vercel</span>
+          </div>
+        </div>
+        <div class="project-meta">
+          <div class="project-year">Jan 2024 – Present</div>
+          <div class="project-impact">
+            <div class="impact-num">50+</div>
+            <div class="impact-label">Active users</div>
+          </div>
+          <div class="project-impact">
+            <div class="impact-num">~35%</div>
+            <div class="impact-label">API speedup</div>
+          </div>
+          <div class="project-impact">
+            <div class="impact-num">99%</div>
+            <div class="impact-label">Uptime</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="project-card">
+        <div>
+          <div class="project-num">02 · Personal Project</div>
+          <h2 class="project-title">API Automation &amp; Data Scraping Module</h2>
+          <div class="project-role">Software Developer</div>
+          <p class="project-desc">A robust Node.js data extraction pipeline for dynamic e-commerce pages — with concurrent scraping, intelligent retry logic, and validated output stored in MongoDB.</p>
+          <ul class="project-bullets">
+            <li>Handled pagination, automatic retries on failure, and data normalisation into JSON/CSV</li>
+            <li>Retry backoff, timeout handling, and failure logging for reliable production use</li>
+            <li>MongoDB output with schema validation for downstream analytics</li>
+            <li>~40% reduction in extraction time via concurrent job execution with rate limiting</li>
+          </ul>
+          <div class="project-tech" style="margin-top:1.25rem">
+            <span class="tech-pill">Node.js</span>
+            <span class="tech-pill">MongoDB</span>
+            <span class="tech-pill">Web Automation</span>
+            <span class="tech-pill">JSON/CSV</span>
+            <span class="tech-pill">Concurrency</span>
+          </div>
+        </div>
+        <div class="project-meta">
+          <div class="project-year">2024</div>
+          <div class="project-impact">
+            <div class="impact-num">~40%</div>
+            <div class="impact-label">Faster extraction</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="container">
+    <div class="section-label">Education</div>
+    <div style="display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);">
+      <div class="edu-card">
+        <div>
+          <div class="edu-institution">ARSD College, University of Delhi</div>
+          <div class="edu-degree">B.Sc. Physical Science (Computer Science)</div>
+        </div>
+        <div class="edu-period">Aug 2023 – Jun 2026</div>
+      </div>
+      <div class="edu-card">
+        <div>
+          <div class="edu-institution">Delhi Public School, Ranipur, Haridwar</div>
+          <div class="edu-degree">12th Grade — Science Stream</div>
+        </div>
+        <div class="edu-period">Completed 2022</div>
+      </div>
+    </div>
+
+    <!-- Extracurriculars -->
+    <div style="margin-top:2.5rem;display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);">
+      <div class="edu-card">
+        <div>
+          <div class="edu-institution">Shikhar — The Mountaineering Club, ARSD</div>
+          <div class="edu-degree">Member · Certificate of Excellence</div>
+        </div>
+        <div class="edu-period">2024–25</div>
+      </div>
+      <div class="edu-card">
+        <div>
+          <div class="edu-institution">Connecting Dreams Foundation, ARSD</div>
+          <div class="edu-degree">Student Volunteer · Certificate of Appreciation</div>
+        </div>
+        <div class="edu-period">2024–25</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-outer">
+      <div class="section-label">Contact</div>
+      <h2 class="contact-heading">Let's build<br><span>something.</span></h2>
+      <p class="contact-sub">Open to full-stack internships · 6–12 months · Available to relocate to Bangalore</p>
+      <div class="contact-links">
+        <a href="mailto:rudranshk168@gmail.com" class="contact-link">
+          <span class="contact-link-icon">✉</span>
+          rudranshk168@gmail.com
+        </a>
+        <a href="https://linkedin.com/in/rudransh-kaushik-825106260" target="_blank" class="contact-link">
+          <span class="contact-link-icon">in</span>
+          LinkedIn Profile
+        </a>
+        <a href="tel:+917060547150" class="contact-link">
+          <span class="contact-link-icon">✆</span>
+          +91 70605 47150
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Rudransh Kaushik · Delhi, India</p>
+  <div class="footer-badge">OPEN TO WORK</div>
+</footer>
+
+</body>
+</html>
